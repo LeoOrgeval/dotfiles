@@ -71,7 +71,7 @@ fi
 # Charger les paramètres MacOS
 echo "🍏 Configuration des paramètres MacOS..."
 chmod +x ~/.macos
-source ~/.macos || echo "ℹ️  Exécutez manuellement 'source ~/.macos' pour appliquer les paramètres"
+# source ~/.macos || echo "ℹ️  Exécutez manuellement 'source ~/.macos' pour appliquer les paramètres"
 
 echo ""
 echo "🎉 Installation terminée !"

@@ -24,7 +24,7 @@ brew "docker"
 # Applications via Homebrew Cask
 cask "1password"
 cask "1password-cli"
-cask "google-chrome"
+cask "brave-browser"
 cask "orbstack"
 cask "warp"
 cask "intellij-idea"
@@ -33,8 +33,12 @@ cask "notion"
 cask "discord"
 cask "tailscale"
 cask "linear-linear"
+cask "chatgpt"
+cask "plex"
+cask "figma"
+cask "blender"
+cask "aldente"
+
 
 # Applications du Mac App Store (nécessite mas)
-mas "WhatsApp", id: 310633997
 mas "Xcode", id: 497799835
-mas "Amphetamine", id: 937984704
