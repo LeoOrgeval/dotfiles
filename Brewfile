@@ -36,8 +36,8 @@ cask "linear-linear"
 cask "chatgpt"
 cask "plex"
 cask "figma"
-cask "blender"
 cask "aldente"
+cask "raycast"
 
 
 # Applications du Mac App Store (nécessite mas)

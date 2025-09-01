@@ -1,14 +1,10 @@
 [user]
-	name = Thomas Orgeval
-	email = orgevalthomas@gmail.com
-    signingkey = E70B582E2635A01B
-    signcommits = true
+	name = Leo Orgeval
+	email = leoorgeval.pro@gmail.com
+	signingkey = 6197FBC1CB0B5658
 [init]
 	defaultBranch = main
 [gpg]
 	format = openpgp
-	program = /opt/homebrew/bin/gpg
-[gpg "ssh"]
-	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 [commit]
 	gpgsign = true
