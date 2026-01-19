@@ -62,3 +62,14 @@ alias gco="git checkout"
 # Outils
 alias k="kubectl"
 alias d="docker"
+alias oc="opencode"
+
+# ----- Android SDK -----
+export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+export ANDROID_HOME="$ANDROID_SDK_ROOT"
+export PATH="$PATH:$ANDROID_SDK_ROOT/platform-tools"
+export PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
+export PATH="$PATH:$ANDROID_SDK_ROOT/emulator"
+
+# Added by Antigravity
+export PATH="/Users/leoorgeval/.antigravity/antigravity/bin:$PATH"
