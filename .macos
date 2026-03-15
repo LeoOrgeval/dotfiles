@@ -42,104 +42,48 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 # =============================
 # Typing and Input
 # =============================
-# Disable automatic capitalization as it’s annoying when typing code
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
-
-# Disable smart dashes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
-
-# Disable automatic period substitution as it’s annoying when typing code
 defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
-
-# Disable smart quotes as they’re annoying when typing code
 defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
-
-# Disable auto-correct
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
 
 # =============================
 # Trackpad, Keyboard, and Input
 # =============================
-# Trackpad: enable tap to click for this user and for the login screen
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Enable tap to click
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
-# Key repeat rates
-defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 15
-
 # =============================
 # Power Management
 # =============================
-# Restart automatically if the computer freezes
-sudo systemsetup -setrestartfreeze on
-
 # Sleep the display after 3 minutes
 sudo pmset -a displaysleep 3
-
 # Set machine sleep to 20 minutes while charging
 sudo pmset -c sleep 20
-
 # Set machine sleep to 10 minutes on battery
 sudo pmset -b sleep 10
 
 # =============================
 # Software Update
 # =============================
-# Enable the automatic update check
 defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-# Check for software updates daily, not just once per week
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
-# Download newly available updates in background
 defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
-# Install System data files & security updates
 defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-# Turn on app auto-update
 defaults write com.apple.commerce AutoUpdate -bool true
-
-# =============================
-# Apple Intelligence (macOS 15+)
-# =============================
-# Deactivate Apple Intelligence
-defaults write com.apple.CloudSubscriptionFeatures.optIn "545129924" -bool "false"
-
-# =============================
-# Finder Preferences
-# =============================
-# Show all filename extensions, hidden files, path bar, status bar, etc.
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-defaults write com.apple.finder AppleShowAllFiles -bool true
-defaults write com.apple.finder ShowPathbar -bool true
-defaults write com.apple.finder ShowStatusBar -bool true
-defaults write com.apple.finder QuitMenuItem -bool true
-defaults write com.apple.finder DisableAllAnimations -bool true
-defaults write com.apple.finder NewWindowTarget -string "PfDo"
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Download/"
-# Show icons for hard drives, servers, and removable media on the desktop
-defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
-defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
-defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
-defaults write com.apple.finder _FXSortFoldersFirst -bool true
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
-defaults write com.apple.finder WarnOnEmptyTrash -bool false
-defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
-
-# Show the /Volumes folder and ~/Library
-sudo chflags nohidden /Volumes
-sudo chflags nohidden ~/Library
-
-# Avoid creating .DS_Store files on network or USB volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # =============================
 # Dock Preferences
 # =============================
 # Set Dock size, hide/show, minimize effect, etc.
-defaults write com.apple.dock tilesize -int 44
+defaults write com.apple.dock tilesize -int 42
 defaults write com.apple.dock show-recents -bool false
 defaults write com.apple.dock showhidden -bool false
 defaults write com.apple.dock minimize-to-application -bool true
@@ -169,59 +113,138 @@ defaults write com.apple.screencapture include-date -bool true
 defaults write com.apple.screencapture type -string "png"
 
 # =============================
-# Finder Favorites (sfltool / AppleScript)
+# Finder / Folders
 # =============================
-echo "🔖 Ajout de Projects aux favoris Finder..."
-if command -v sfltool >/dev/null 2>&1; then
-    sfltool add-item com.apple.LSSharedFileList.FavoriteItems ~/Projects
-    echo "✅ Ajouté via sfltool."
-else
-    # Try AppleScript for modern macOS (Monterey+)
-    osascript <<EOD
-      tell application "Finder"
-        activate
-        try
-          set projectsFolder to (POSIX file ("$HOME/Projects") as alias)
-          open projectsFolder
-          display dialog "To add 'Projects' to Finder favorites, drag it from the open window to the sidebar." buttons {"OK"} default button 1 with icon note
-        on error
-          display dialog "Could not open ~/Projects. Please create it first." buttons {"OK"} default button 1 with icon stop
-        end try
-      end tell
-EOD
-    echo "ℹ️  sfltool not available. Opened ~/Projects in Finder for manual drag to sidebar."
-fi
+# Show /Volumes and ~/Library
+sudo chflags nohidden /Volumes
+sudo chflags nohidden ~/Library
+
+# Avoid .DS_Store on network/USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# =============================
+# Finder Preferences
+# =============================
+# Show all filename extensions, hidden files, path bar, status bar, etc.
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+defaults write com.apple.finder AppleShowAllFiles -bool true
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder QuitMenuItem -bool true
+defaults write com.apple.finder DisableAllAnimations -bool true
+defaults write com.apple.finder NewWindowTarget -string "PfDo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Projects/"
+# Show icons for hard drives, servers, and removable media on the desktop
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool false
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 # =============================
 # Dock Customization
 # =============================
-# Clear items
+
+# Clear pinned apps
 defaults write com.apple.dock persistent-apps -array
 
-# Add custom apps in order (check if app exists before adding)
-for dockItem in /Applications/{"Google Chrome","Discord","IntelliJ IDEA","Warp","OrbStack","Linear","Notion","Spotify"}.app; do
-  if [ -e "$dockItem" ]; then
-    defaults write com.apple.dock persistent-apps -array-add \
-      "<dict>
-         <key>tile-data</key>
-         <dict>
-           <key>file-data</key>
-           <dict>
-             <key>_CFURLString</key>
-             <string>$dockItem</string>
-             <key>_CFURLStringType</key>
-             <integer>0</integer>
-           </dict>
-         </dict>
-       </dict>"
+# Add an app to the Dock
+add_dock_app() {
+  local app_path="$1"
+
+  if [ -e "$app_path" ]; then
+    defaults write com.apple.dock persistent-apps -array-add "$(printf '
+      <dict>
+        <key>tile-data</key>
+        <dict>
+          <key>file-data</key>
+          <dict>
+            <key>_CFURLString</key>
+            <string>%s</string>
+            <key>_CFURLStringType</key>
+            <integer>0</integer>
+          </dict>
+        </dict>
+      </dict>' "$app_path")"
   fi
-done
+}
+
+# Find an app in common macOS locations
+find_app() {
+  local app_name="$1"
+  local candidates=(
+    "/Applications/$app_name.app"
+    "/System/Applications/$app_name.app"
+    "$HOME/Applications/$app_name.app"
+  )
+
+  local path
+  for path in "${candidates[@]}"; do
+    if [ -e "$path" ]; then
+      printf '%s\n' "$path"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+# Add a spacer to the applications side of the Dock
+add_dock_spacer() {
+  defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
+}
+
+# Add a group of apps to the Dock
+add_dock_group() {
+  local app_name
+  local app_path
+
+  for app_name in "$@"; do
+    if app_path="$(find_app "$app_name")"; then
+      add_dock_app "$app_path"
+    else
+      echo "App not found: $app_name" >&2
+    fi
+  done
+}
+
+# Media / browser
+add_dock_group \
+  "Plex" \
+  "Brave Browser"
+
+add_dock_spacer
+
+# Work / dev tools
+add_dock_group \
+  "OrbStack" \
+  "Figma" \
+  "Warp" \
+  "Codex" \
+  "ChatGPT"
+
+add_dock_spacer
+
+# Productivity / communication
+add_dock_group \
+  "Notion" \
+  "Music" \
+  "Microsoft Teams" \
+  "Discord" \
+  "Messages"
+
+add_dock_spacer
 
 # =============================
 # Finalization
 # =============================
 echo "✅ Configuration terminée!"
 echo "Redémarrage des services nécessaires..."
-killall SystemUIServer
-killall Finder
-killall Dock
+for app in "SystemUIServer" "Finder" "Dock"; do
+  killall "${app}" &> /dev/null || true
+done
